@@ -24,15 +24,14 @@ jobs:
           done
 
       - name: Test - Validate image format
-        run: |
-          for img in $(find ./images -type f); do
-            filetype=$(file --mime-type -b "$img")
-            echo "$img is of type $filetype"
-            if [[ "$filetype" != image/* ]]; then
-              echo "❌ Invalid image format: $img"
-              exit 1
-            fi
-          done
+  run:file --mime-type |
+    for img in $( -b "$img")
+  echo "$img is of type $filetype"
+  if [[ "$filetype" != image/png && "$filetype" != image/jpeg ]]; then
+    echo "❌ Invalid image format: $img"
+    exit 1
+  fi
+done
 
       - name: Upload to S3
         uses: jakejarvis/s3-sync-action@master
